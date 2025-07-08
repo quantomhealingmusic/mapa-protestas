@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de Protestas - Julio 2025</title>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100vh;
+    }
+    .marker-popup {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    // Reemplaza este token por el tuyo de Mapbox
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZGVtb3VzZXIiLCJhIjoiY2t2c3E2Z3gxMDNybTJ2cG9mNDR1ZzI5cCJ9.DemoTokenReemplazar';
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-73.976129, 40.747786],
+      zoom: 12
+    });
+
+    const protestas = [
+      {
+        coords: [-73.976129, 40.747786],
+        ciudad: "Nueva York",
+        direccion: "315 Lexington Ave, frente a la Misión de Cuba ante la ONU",
+        fecha: "11 de julio de 2025",
+        hora: "6:00 PM (EDT)",
+        causa: "Libertad para Ferrer – Manifestación convocada por UNPACU"
+      }
+    ];
+
+    protestas.forEach(p => {
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        `<div class="marker-popup">
+          <strong>${p.ciudad}</strong><br/>
+          <em>${p.fecha} a las ${p.hora}</em><br/>
+          <strong>Dirección:</strong> ${p.direccion}<br/>
+          <strong>Causa:</strong> ${p.causa}
+        </div>`
+      );
+
+      new mapboxgl.Marker()
+        .setLngLat(p.coords)
+        .setPopup(popup)
+        .addTo(map);
+    });
+  </script>
+</body>
+</html>
